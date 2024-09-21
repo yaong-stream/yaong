@@ -45,10 +45,10 @@ export const MainHeader = () => {
 
             <SearchInput searchKeyword={term ?? ''} onSearch={onSearch} />
             <div className="flex items-center gap-2">
-                <Link href='/signin'>
+                <Link href='/auth/signin'>
                     <Button size='sm'>Login</Button>
                 </Link>
-                <Link href='/signup'>
+                <Link href='/auth/signup'>
                     <Button size='sm'>Sign up</Button>
                 </Link>
 
