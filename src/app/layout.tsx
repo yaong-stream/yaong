@@ -29,15 +29,17 @@ export default function RootLayout({
 }>) {
   return (
 
-    <RqProvider>
-      <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <RqProvider>
           <AuthSubscriber>
             {children}
           </AuthSubscriber>
-        </body>
-      </html>
-    </RqProvider>
+        </RqProvider>
+      </body>
+    </html>
+
   );
 }
