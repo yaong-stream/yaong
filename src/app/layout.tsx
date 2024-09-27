@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { RqProvider } from "@/components/rq-provider";
 import { AuthSubscriber } from "@/components/auth-subscriber";
+import { Toaster } from "@/components/ui/toaster";
 
 
 const geistSans = localFont({
@@ -36,6 +37,7 @@ export default function RootLayout({
         <RqProvider>
           <AuthSubscriber>
             {children}
+            <Toaster />
           </AuthSubscriber>
         </RqProvider>
       </body>

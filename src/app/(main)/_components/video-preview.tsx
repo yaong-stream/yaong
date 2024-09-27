@@ -1,7 +1,7 @@
 'use client';
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useGetVideos } from "@/services/video/video";
+import { useGetVideos } from "@/services/video/queries";
 import { FC } from "react";
 
 

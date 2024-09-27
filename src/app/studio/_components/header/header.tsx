@@ -8,20 +8,19 @@ import {
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
-    DropdownMenuShortcut,
+    DropdownMenuShortcut, 
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { useSupabase } from "@/hooks/use-supabse";
 import { useAuthStore } from "@/stores/use-auth-store";
 import { PersonIcon } from "@radix-ui/react-icons";
+import { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
     FC,
     PropsWithChildren
 } from "react";
-import { SearchInput } from "./search-input";
-import { User } from "@supabase/supabase-js";
 export const Header = () => {
     const user = useAuthStore(state => state.user);
 
@@ -35,8 +34,6 @@ export const Header = () => {
                     Browse
                 </Link>
             </div>
-
-            <SearchInput />
             <div className="flex items-center gap-2">
                 {
                     user ? <>
@@ -79,14 +76,8 @@ const UserPersonalDropDownMenu: FC<PropsWithChildren<{ user: User }>> = ({ child
             <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>
                     My Account - {user.email}
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                    <DropdownMenuItem asChild>
-                        <Link href={'/studio'}>방송하기</Link>
 
-                    </DropdownMenuItem>
-                </DropdownMenuGroup>
+                </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                     <DropdownMenuItem>
