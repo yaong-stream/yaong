@@ -11,9 +11,12 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { useSupabase } from "@/hooks/use-supabse";
 import { useAuthStore } from "@/stores/use-auth-store";
 import { PersonIcon } from "@radix-ui/react-icons";
+import { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -21,12 +24,12 @@ import {
     PropsWithChildren
 } from "react";
 import { SearchInput } from "./search-input";
-import { User } from "@supabase/supabase-js";
+import { useTheme } from "next-themes";
 export const Header = () => {
     const user = useAuthStore(state => state.user);
 
     return (
-        <nav className="p-4 flex h-16 justify-between w-full bg-zinc-800">
+        <nav className="p-4 flex h-16 justify-between w-ful">
 
             <div>
                 <span>Icon</span>
@@ -41,7 +44,7 @@ export const Header = () => {
                 {
                     user ? <>
                         <UserPersonalDropDownMenu user={user}>
-                            <PersonIcon className="size-6 text-gray-200 cursor-pointer" />
+                            <PersonIcon className="size-6 cursor-pointer" />
                         </UserPersonalDropDownMenu>
                     </> : <>
                         <Link href='/auth/signin'>
@@ -62,9 +65,15 @@ export const Header = () => {
 const UserPersonalDropDownMenu: FC<PropsWithChildren<{ user: User }>> = ({ children, user }) => {
     const client = useSupabase();
     const router = useRouter();
+    const { setTheme, resolvedTheme } = useTheme();
+    const isDark = resolvedTheme === 'dark';
+
     const onLogout = () => {
         client.auth.signOut();
         router.refresh();
+    };
+    const onChangeTheme = (checked: boolean) => {
+        setTheme(checked ? 'dark' : 'light');
     };
 
 
@@ -84,7 +93,6 @@ const UserPersonalDropDownMenu: FC<PropsWithChildren<{ user: User }>> = ({ child
                 <DropdownMenuGroup>
                     <DropdownMenuItem asChild>
                         <Link href={'/studio'}>방송하기</Link>
-
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
@@ -96,6 +104,10 @@ const UserPersonalDropDownMenu: FC<PropsWithChildren<{ user: User }>> = ({ child
                         Settings
                         <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
                     </DropdownMenuItem>
+                    <div className="flex items-center p-2 gap-2">
+                        <Label htmlFor="dark-mode">Dark Mode</Label>
+                        <Switch id="dark-mode" defaultChecked={isDark} onCheckedChange={onChangeTheme} />
+                    </div>
 
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />

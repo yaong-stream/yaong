@@ -1,5 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Header } from "./_components/header/header";
+import { Header } from "../../components/header/header";
 import { SideNavMenu } from "./_components/side-nav-menu";
 
 export default async function Layout({ children }: {

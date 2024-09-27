@@ -1,5 +1,4 @@
-import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { Header } from "./_components/header/header";
+import { Header } from "@/components/header/header";
 import { SideNavMenu } from "./_components/side-nav-menu";
 
 export default function StudioLayout({ children }: Readonly<{

@@ -4,6 +4,7 @@ import "./globals.css";
 import { RqProvider } from "@/components/rq-provider";
 import { AuthSubscriber } from "@/components/auth-subscriber";
 import { Toaster } from "@/components/ui/toaster";
+import { ThemeProvider } from "@/components/theme-provider";
 
 
 const geistSans = localFont({
@@ -36,7 +37,12 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <RqProvider>
           <AuthSubscriber>
-            {children}
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem>
+              {children}
+            </ThemeProvider>
             <Toaster />
           </AuthSubscriber>
         </RqProvider>

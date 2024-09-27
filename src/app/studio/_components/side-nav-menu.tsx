@@ -35,9 +35,7 @@ export const SideNavMenu = () => {
                         </Accordion>
                     </SideNavigationMenuItem>
                 </SideNavigationMenu>
-
             </ScrollArea>
-
         </aside>
     );
 }
