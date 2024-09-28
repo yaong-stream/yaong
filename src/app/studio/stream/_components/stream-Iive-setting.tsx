@@ -1,13 +1,20 @@
 'use client';
 
 import { AutoCompleteInput } from "@/components/autocomplete-input/autocomplete-input";
+import { Chip } from "@/components/ui-extends/chip";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, ControllerRenderProps } from "react-hook-form";
 import { z } from 'zod';
+
+
+
+
+
+
 
 const formSchema = z.object({
     title: z.string().min(1).max(100),
@@ -15,6 +22,8 @@ const formSchema = z.object({
     tags: z.array(z.string()),
     image: z.instanceof(FileList).optional(),
 });
+
+type TagsField = ControllerRenderProps<z.infer<typeof formSchema>, 'tags'>;
 
 
 const StremeIiveSetting = () => {
@@ -36,13 +45,22 @@ const StremeIiveSetting = () => {
     };
 
     const tagList = [
-        { name: '111', value: '111' },
-        { name: '122', value: '122' },
-        { name: '133', value: '133' },
+        '1',
+        '11',
+        '123',
+        '12345',
     ];
 
-    const onSelect = (item) => {
-        console.log('item', item);
+    const onSelect = (item: string, field: TagsField) => {
+        console.log('item', item, field.value);
+        const tags = [...field.value, item];
+        field.onChange(tags);
+    };
+
+    const onDelete = (label: string) => {
+        const tags = form.getValues('tags');
+        const filteredTags = tags.filter((tag) => tag !== label);
+        form.setValue('tags', filteredTags);
     };
 
     return (
@@ -86,10 +104,15 @@ const StremeIiveSetting = () => {
                             <FormItem>
                                 <FormLabel>태그</FormLabel>
                                 <FormControl>
-                                    <AutoCompleteInput data={tagList} onSelect={onSelect} />
+                                    <AutoCompleteInput data={tagList} onSelect={(item) => onSelect(item, field)} />
                                 </FormControl>
-                                <div>
-                                    
+                                <div className="flex flex-wrap gap-2">
+
+                                    {
+                                        field.value.map((tag) => <Chip key={tag} label={tag} disabled onDelete={onDelete} />)
+                                    }
+
+
                                 </div>
                             </FormItem>
                         )}

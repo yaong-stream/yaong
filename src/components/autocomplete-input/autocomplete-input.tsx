@@ -27,7 +27,7 @@ const Item = forwardRef<
 >(({ children, active, ...rest }, ref) => {
     const id = useId();
     return (
-        <div
+        <li
             ref={ref}
             role="option"
             id={id}
@@ -41,24 +41,21 @@ const Item = forwardRef<
             }}
         >
             {children}
-        </div>
+        </li>
     );
 });
 
 Item.displayName = 'item';
 
 
-type Option = { name: string, value: string };
-
-
 interface AutoCompleteInputProps {
-    data?: Option[];
-    onSelect?: (option: Option) => void;
+    data?: string[];
+    onSelect?: (data: string) => void;
     onClose?: () => void;
 }
 
 
-function AutoCompleteInput({ data, onSelect }: AutoCompleteInputProps) {
+const AutoCompleteInput = ({ data, onSelect }: AutoCompleteInputProps) => {
     const [open, setOpen] = useState(false);
     const [inputValue, setInputValue] = useState("");
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -112,8 +109,8 @@ function AutoCompleteInput({ data, onSelect }: AutoCompleteInputProps) {
         }
     }
 
-    const items = data?.filter(({ name }) =>
-        name.toLowerCase().startsWith(inputValue.toLowerCase())
+    const items = data?.filter((item: string) =>
+        item.toLowerCase().startsWith(inputValue.toLowerCase())
     );
 
 
@@ -144,8 +141,10 @@ function AutoCompleteInput({ data, onSelect }: AutoCompleteInputProps) {
                                 setActiveIndex(null);
                                 setOpen(false);
                             } else {
-                                onSelect?.({ name: '', value: event?.target?.value });
+                                onSelect?.(event?.target?.value || '');
                                 setInputValue('');
+                                setActiveIndex(null);
+                                setOpen(false);
                             }
 
 
@@ -162,7 +161,7 @@ function AutoCompleteInput({ data, onSelect }: AutoCompleteInputProps) {
                         initialFocus={-1}
                         visuallyHiddenDismiss
                     >
-                        <div
+                        <ul
                             {...getFloatingProps({
                                 ref: refs.setFloating,
                                 style: {
@@ -176,7 +175,7 @@ function AutoCompleteInput({ data, onSelect }: AutoCompleteInputProps) {
                             {items?.map((item, index) => (
                                 <Item
                                     {...getItemProps({
-                                        key: item.value,
+                                        key: item,
                                         ref: (node) => {
                                             listRef.current[index] = node;
                                         },
@@ -189,13 +188,13 @@ function AutoCompleteInput({ data, onSelect }: AutoCompleteInputProps) {
                                         }
                                     })
                                     }
-                                    key={item.value}
+                                    key={item}
                                     active={activeIndex === index}
                                 >
-                                    {item.name}
+                                    {item}
                                 </Item>
                             ))}
-                        </div>
+                        </ul>
                     </FloatingFocusManager>
                 )}
             </FloatingPortal>
