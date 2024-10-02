@@ -9,6 +9,9 @@ const config: Config = {
 	],
 	theme: {
 		extend: {
+			fontFamily: {
+				sans: ['var(--font-note-sans-kr)'],
+			},
 			height: {
 				'128': '32rem'
 			},
