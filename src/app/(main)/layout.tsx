@@ -13,7 +13,7 @@ export default async function Layout({ children }: {
         <div className="flex w-full h-[calc(100vh-4.5rem)]">
           <SideNavMenu />
           <main className="h-full w-full border-red-800 border-2">
-            <ScrollArea >
+            <ScrollArea className="h-full w-full">
               {children}
             </ScrollArea>
           </main>
