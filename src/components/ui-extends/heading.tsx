@@ -17,7 +17,7 @@ const H1: FC<HeadingProps> = ({ children, ...props }) => {
 
 const H2: FC<HeadingProps> = ({ children, ...props }) => {
     return (
-        <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0" {...props}>
+        <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0" {...props}>
             {children}
         </h2>
     );
