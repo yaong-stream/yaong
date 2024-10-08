@@ -29,9 +29,16 @@ const Category = () => {
         <ScrollArea className="h-full w-full" viewportRef={viewportRef}>
             <div className="w-full h-full py-10 xl:py-20 px-4 xl:px-[calc(10%)]">
                 <H2>카테코리</H2>
-
                 <CategoryCardList ref={categoryCardListRef}>
-                    {list?.map((v, idx) => <CategoryCard key={idx} name={v.name} imageUrl={v.image_url} />)}
+                    {
+                        list?.map(
+                            (v) => <CategoryCard
+                                key={v.id}
+                                url={`/category/${v.id}/lives`} 
+                                name={v.name}
+                                imageUrl={v.image_url} />
+                        )
+                    }
                     {
                         isLoading &&
                         <>

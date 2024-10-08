@@ -1,6 +1,6 @@
 import { SupabaseClientType, useSupabase } from "@/hooks/use-supabse";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import { Tables } from "@/types/supabase";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 export type CategoryRow = Tables<'categories'>;
 
@@ -13,12 +13,13 @@ export function getRange(page: number, limit: number) {
 
 
 const queryKeys = {
-    list: ['categories'] as const,
+    all: ['categories'] as const,
+    detail: (id: string) => [...queryKeys.all, id] as const,
 };
 
 const queryOptions = {
-    list: (client: SupabaseClientType) => ({
-        queryKey: queryKeys.list,
+    all: (client: SupabaseClientType) => ({
+        queryKey: queryKeys.all,
         queryFn: async ({ pageParam }) => {
 
             const { from, to } = getRange(pageParam, 20);
@@ -31,7 +32,6 @@ const queryOptions = {
             return data;
         },
         initialPageParam: 0,
-
         getNextPageParam: (lastPage, allPages) => {
             const nextPage: number | undefined = lastPage?.length
                 ? allPages?.length
@@ -40,14 +40,31 @@ const queryOptions = {
             return nextPage;
         },
     }),
+    detail: (client: SupabaseClientType, id: string) => ({
+        queryKey: queryKeys.detail(id),
+        queryFn: async () => {
+            const { data } = await client
+                .from('categories')
+                .select().eq('id', id);
+
+            return data;
+        },
+    })
 };
 
 
 const useGetCategories = () => {
     const client: SupabaseClientType = useSupabase();
-    return useInfiniteQuery(queryOptions.list(client));
+    return useInfiniteQuery(queryOptions.all(client));
 };
 
 
-export { useGetCategories };
+const useGetCategory = (id: string) => {
+    const client: SupabaseClientType = useSupabase();
+    return useQuery(queryOptions.detail(client, id));
+};
+
+
+
+export { useGetCategories, useGetCategory };
 
