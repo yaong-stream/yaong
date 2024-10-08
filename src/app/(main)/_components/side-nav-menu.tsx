@@ -5,7 +5,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { ChevronDownIcon, HomeIcon, ListBulletIcon, VideoIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
 import { FC, PropsWithChildren } from "react";
 
 const SubScription: FC<PropsWithChildren> = ({ children }) => {

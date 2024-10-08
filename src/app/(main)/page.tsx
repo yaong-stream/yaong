@@ -1,8 +1,8 @@
-import { VideoPreview } from "./_components/video-preview";
+import { MainVideos } from "./_components/main-videos";
 
 export default async function Page() {
 
   return (
-    <VideoPreview />
+    <MainVideos />
   );
 }
