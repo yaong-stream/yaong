@@ -1,3 +1,4 @@
+import { SupabaseClientServerType } from "@/hooks/use-supabase-server";
 import { SupabaseClientType, useSupabase } from "@/hooks/use-supabse";
 import { Tables } from "@/types/supabase";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
@@ -18,7 +19,7 @@ const queryKeys = {
 };
 
 const queryOptions = {
-    all: (client: SupabaseClientType) => ({
+    all: (client: SupabaseClientType | SupabaseClientServerType) => ({
         queryKey: queryKeys.all,
         queryFn: async ({ pageParam }) => {
 
@@ -53,8 +54,7 @@ const queryOptions = {
 };
 
 
-const useGetCategories = () => {
-    const client: SupabaseClientType = useSupabase();
+const useGetCategories = (client: SupabaseClientType) => {
     return useInfiniteQuery(queryOptions.all(client));
 };
 
@@ -66,5 +66,5 @@ const useGetCategory = (id: string) => {
 
 
 
-export { useGetCategories, useGetCategory };
+export { useGetCategories, useGetCategory, queryOptions };
 

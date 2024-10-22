@@ -6,15 +6,17 @@ import { useEffect, useRef } from "react";
 import { useInView } from "react-intersection-observer";
 import { CategoryCard, CategoryCardList } from "./category-card-list";
 import { PlacehoderCategoryCard } from "./placehoder-category-card";
+import { useSupabase } from "@/hooks/use-supabse";
 
 const Category = () => {
 
 
     const categoryCardListRef = useRef<HTMLDivElement>(null);
+    const client = useSupabase();
 
     const viewportRef = useRef<HTMLDivElement>(null);
     const { ref, inView } = useInView({ root: viewportRef.current });
-    const { data, isLoading, fetchNextPage, hasNextPage } = useGetCategories();
+    const { data, isLoading, fetchNextPage, hasNextPage } = useGetCategories(client);
     const list = data?.pages.flat() as CategoryRow[];
 
 
